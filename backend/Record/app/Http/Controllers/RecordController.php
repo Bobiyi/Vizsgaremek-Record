@@ -253,6 +253,7 @@ class RecordController extends Controller
 
         $data= $request->toModel();
 
+        unset($data['icon_path'], $data['cover_path']);
         if($request->hasFile('artistIcon')) {
             if ($oldFilePathIcon) {
                 Storage::disk('public')->delete($oldFilePathIcon);
