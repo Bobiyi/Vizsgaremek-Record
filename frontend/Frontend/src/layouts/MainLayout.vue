@@ -57,7 +57,7 @@
 
           <!--linkek-->
           <div>
-            <q-btn flat round icon="mdi-github" href="https://github.com/Bobiyi/Record_Vizsga" target="_blank"/>
+            <q-btn flat round icon="mdi-github" href="https://github.com/Bobiyi/vizsgaremek-record" target="_blank"/>
             <q-btn flat round icon="mdi-information" to="/about"/>
 
           </div>
