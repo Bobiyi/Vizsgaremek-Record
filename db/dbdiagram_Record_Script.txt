@@ -1,0 +1,108 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Enum artist_Role{
+  featured
+  producer
+}
+
+Enum user_Role{
+  admin
+  user
+}
+
+Enum request_type{
+  new_artist
+  new_record
+  edit_artist
+  adit_record
+}
+
+Enum request_status{
+  pending
+  accepted
+  rejected
+}
+
+Table  record{
+  id int [primary key]
+  name varchar [not null]
+  type_id int 
+  release_year year [default:`year(CURRENT_DATE())`]
+  length int [check: `length>0`,default:1] 
+  file_path varchar
+}
+
+Table record_type{
+  id int [primary key]
+  type_name varchar [unique, not null]
+}
+
+Table artist_record{
+  artist_id int 
+  record_id int
+  role artist_Role
+  indexes {
+    (artist_id,record_id)
+  }
+}
+
+Table artist{
+  id int [primary key]
+  name varchar [unique, not null]
+  active_since date [default: 'year(CURRENT_DATE))']
+  nationality varchar
+  url varchar
+  is_group bit [not null, default: 0]
+  icon_path varchar
+  cover_path varchar
+}
+
+Table user{
+  id int [primary key]
+  password_hash char [not null]
+  name varchar [not null]
+  email varchar [unique]
+  phone varchar [unique]
+  role user_Role
+  created_at timestamp [default: "CURRENT_DATE()"]
+  updated_at timestamp [default: "CURRENT_DATE()"]
+  indexes {
+    (name)
+  }
+}
+
+Table request{
+  id int [pk]
+  user_id int [not null]
+  type request_type [not null]
+  payload JSON [not null]
+  status request_status [default: "pending"]
+  admin_note varchar
+  created_at timestamp [default: "CURRENT_TIMESTAMP()"]
+  reviewed_at timestamp [null]
+  indexes {
+    user_id
+    status
+  }
+}
+
+Table favourite{
+  user_id int
+  record_id int
+  indexes {
+    (record_id,user_id)
+  }
+}
+
+Ref Record_Id: record.id < artist_record.record_id
+
+Ref Artist_Id: artist.id < artist_record.artist_id
+
+Ref Record_Type: record.type_id > record_type.id
+
+Ref Record_Id: favourite.record_id > record.id
+
+Ref User_Id: user.id < favourite.user_id
+
+REF Request_user_id: request.user_id > user.id

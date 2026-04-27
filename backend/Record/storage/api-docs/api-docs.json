@@ -1,0 +1,1345 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Record API",
+        "description": "API documentation for Record Vizsga project",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api": {},
+        "/api/about": {
+            "get": {
+                "tags": [
+                    "About"
+                ],
+                "summary": "Get information about the application",
+                "operationId": "feb15bca3f0dab23f73820f274a235f0",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/records": {
+            "get": {
+                "tags": [
+                    "Records"
+                ],
+                "summary": "Get all records",
+                "operationId": "e1faf96035738aa8649fd22a7b13f8fd",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/records/{recordId}": {
+            "get": {
+                "tags": [
+                    "Records"
+                ],
+                "summary": "Get the Record on a given id",
+                "operationId": "0cba7a5e25071702d30f0e9d442ad6c7",
+                "parameters": [
+                    {
+                        "name": "recordId",
+                        "in": "path",
+                        "description": "Record ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/artists": {
+            "get": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Get all artists",
+                "operationId": "6aff64b9f886f6c9837df90f3cdc3a4a",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/artists/{id}": {
+            "get": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Get the Artists on a given id",
+                "operationId": "a0638f4f4f1a63c0cd74ce638d232559",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Artist ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Updates an existing artist",
+                "operationId": "d18fda95858a9b7d976de899e85cfaf6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "artistName",
+                                    "isGroup"
+                                ],
+                                "properties": {
+                                    "artistName": {
+                                        "type": "string",
+                                        "maxLength": 64,
+                                        "example": "Metallica"
+                                    },
+                                    "activeSince": {
+                                        "type": "integer",
+                                        "example": 1981
+                                    },
+                                    "artistNationality": {
+                                        "type": "string",
+                                        "maxLength": 3,
+                                        "example": "usa"
+                                    },
+                                    "artistWebsite": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "https://www.metallica.com"
+                                    },
+                                    "isGroup": {
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
+                                    },
+                                    "artistIcon": {
+                                        "description": "JPG only. Replaces existing icon.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "artistCover": {
+                                        "description": "JPG only. Replaces existing cover.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Artist updated successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Artist not found"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    },
+                    "500": {
+                        "description": "Failed to update artist"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Deletes the Artist on the given Id",
+                "description": "Completley removes the Artist and all of its links from the database. Only avaiable to Admins.",
+                "operationId": "dd35a3012e6f7332fd53dac4fa554b66",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Artist deleted successfully"
+                    },
+                    "401": {
+                        "description": "No Token provided / Not admin user"
+                    },
+                    "404": {
+                        "description": "Artist not found"
+                    },
+                    "500": {
+                        "description": "Artist found, but server failed to delete the file"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/records/types": {
+            "get": {
+                "tags": [
+                    "Types"
+                ],
+                "summary": "Get all record types",
+                "operationId": "fd484e159bc046bb73cb65315b8a3605",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/records/types/{type}": {
+            "get": {
+                "tags": [
+                    "Records",
+                    "Types"
+                ],
+                "summary": "Get the Record with the given type",
+                "operationId": "1a68ed77ac061c88b2dc26ca536d5e89",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Type Name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/records-artist/{recordId}": {
+            "get": {
+                "tags": [
+                    "Records",
+                    "Artists"
+                ],
+                "summary": "Return a given Records All Artists",
+                "operationId": "ff606a28570a6afe5d9be459a534a2ec",
+                "parameters": [
+                    {
+                        "name": "RecordId",
+                        "in": "path",
+                        "description": "RecordId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/artists-record/{artistId}": {
+            "get": {
+                "tags": [
+                    "Records",
+                    "Artists"
+                ],
+                "summary": "Return a given Artist All Records",
+                "operationId": "4ad056f50aa397d50e7ce5369bf7c890",
+                "parameters": [
+                    {
+                        "name": "ArtistId",
+                        "in": "path",
+                        "description": "ArtistId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/api/record": {
+            "post": {
+                "tags": [
+                    "Records"
+                ],
+                "summary": "Create a new record",
+                "operationId": "955b50cf09d53f44c2c2286baaad1a9f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "recordName",
+                                    "typeId"
+                                ],
+                                "properties": {
+                                    "recordName": {
+                                        "type": "string",
+                                        "example": "Master Of Puppets"
+                                    },
+                                    "typeId": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "releaseYear": {
+                                        "type": "integer",
+                                        "example": 1986
+                                    },
+                                    "length": {
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "recordFile": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Record created successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "The request was received but its content contained errors!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/artist": {
+            "post": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Create a new artist",
+                "operationId": "159617d5d603f6d82eb20e84ab64c27f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "artistName",
+                                    "isGroup"
+                                ],
+                                "properties": {
+                                    "artistName": {
+                                        "type": "string",
+                                        "example": "Metallica"
+                                    },
+                                    "activeSince": {
+                                        "type": "integer",
+                                        "example": 1981
+                                    },
+                                    "artistNationality": {
+                                        "type": "string",
+                                        "example": "usa"
+                                    },
+                                    "artistWebsite": {
+                                        "type": "string",
+                                        "example": "https://www.metallica.com"
+                                    },
+                                    "isGroup": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "artistIcon": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "artistCover": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Artist created successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "The request was received but its content contained errors!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/records/{id}": {
+            "put": {
+                "tags": [
+                    "Records"
+                ],
+                "summary": "Updates an existing record",
+                "operationId": "dac7daeebc4d69c5d8f1142f5d89dfc5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "recordName",
+                                    "typeId"
+                                ],
+                                "properties": {
+                                    "recordName": {
+                                        "type": "string",
+                                        "maxLength": 64,
+                                        "example": "Master of Puppets"
+                                    },
+                                    "typeId": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "releaseYear": {
+                                        "type": "integer",
+                                        "example": 1986
+                                    },
+                                    "length": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "example": 54
+                                    },
+                                    "recordFile": {
+                                        "description": "JPG only, 1:1 ratio, max 1280px. Replaces existing file.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Record updated successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Record not found"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    },
+                    "500": {
+                        "description": "Failed to update record"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Records"
+                ],
+                "summary": "Deletes the Record on the given Id",
+                "description": "Completley removes the Record and all of its links from the database. Only avaiable to Admins.",
+                "operationId": "8de48e25561a884d3855235ef574104d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Record deleted successfully"
+                    },
+                    "401": {
+                        "description": "No Token provided / Not admin user"
+                    },
+                    "404": {
+                        "description": "Record not found"
+                    },
+                    "500": {
+                        "description": "Record found, but server failed to delete the file"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/link-artist-record": {
+            "post": {
+                "tags": [
+                    "Artists",
+                    "Records"
+                ],
+                "summary": "Links an Artist to a Record",
+                "operationId": "456ee5743045df2d8e0dc9f7f56600ff",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "artistId",
+                                    "recordId"
+                                ],
+                                "properties": {
+                                    "artistId": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "recordId": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "[ArtistName] linked to [RecordNAme]"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "The request was recieved but its content contained errors!"
+                    },
+                    "500": {
+                        "description": "The request was recieved but the serve failde to link the records!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/queue-request": {
+            "post": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Adds a new entry to the Queue",
+                "operationId": "9a7f12dfaaced1898cd05424f4bb7db6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "payload"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "new_artist",
+                                            "edit_artist",
+                                            "new_record",
+                                            "edit_record"
+                                        ],
+                                        "example": "new_artist"
+                                    },
+                                    "payload": {
+                                        "description": "JSON encoded object. Structure depends on `type`.",
+                                        "type": "string",
+                                        "oneOf": [
+                                            {
+                                                "title": "Artist Payload",
+                                                "required": [
+                                                    "artistName",
+                                                    "isGroup"
+                                                ],
+                                                "properties": {
+                                                    "artistName": {
+                                                        "type": "string",
+                                                        "maxLength": 64,
+                                                        "example": "Metallica"
+                                                    },
+                                                    "activeSince": {
+                                                        "type": "integer",
+                                                        "example": 1981
+                                                    },
+                                                    "artistNationality": {
+                                                        "type": "string",
+                                                        "maxLength": 3,
+                                                        "example": "usa"
+                                                    },
+                                                    "artistWebsite": {
+                                                        "type": "string",
+                                                        "maxLength": 255,
+                                                        "example": "https://www.metallica.com"
+                                                    },
+                                                    "isGroup": {
+                                                        "type": "integer",
+                                                        "enum": [
+                                                            0,
+                                                            1
+                                                        ],
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            {
+                                                "title": "Record Payload",
+                                                "required": [
+                                                    "recordName",
+                                                    "typeId"
+                                                ],
+                                                "properties": {
+                                                    "recordName": {
+                                                        "type": "string",
+                                                        "maxLength": 64,
+                                                        "example": "Master of Puppets"
+                                                    },
+                                                    "typeId": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "releaseYear": {
+                                                        "type": "integer",
+                                                        "example": 1986
+                                                    },
+                                                    "length": {
+                                                        "type": "integer",
+                                                        "minimum": 1,
+                                                        "example": 54
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        ]
+                                    },
+                                    "artistIcon": {
+                                        "description": "JPG only.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "artistCover": {
+                                        "description": "JPG only.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "recordFile": {
+                                        "description": "JPG only, 1:1 ratio, max 1280px.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Entry queued successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/requests": {
+            "get": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Returns all pending requests",
+                "description": "Returns all requests with status \"pending\". Requires authentication.",
+                "operationId": "ab334bfdb7aa3e5488af8dbb18fdd21b",
+                "responses": {
+                    "200": {
+                        "description": "List of pending requests",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "userId": {
+                                                "type": "integer",
+                                                "example": 3
+                                            },
+                                            "userName": {
+                                                "type": "string",
+                                                "example": "John Doe"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "new_artist",
+                                                    "edit_artist",
+                                                    "new_record",
+                                                    "edit_record"
+                                                ],
+                                                "example": "new_artist"
+                                            },
+                                            "data": {
+                                                "description": "Payload data. Structure depends on type.",
+                                                "type": "object"
+                                            },
+                                            "createdAt": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2026-03-24T10:00:00Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/requests/{requestId}": {
+            "get": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Returns a request with the provided id",
+                "operationId": "66a86aec57ab6cd6cc73a72fc27f0b83",
+                "parameters": [
+                    {
+                        "name": "requestId",
+                        "in": "path",
+                        "description": "Requests Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request on that id"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Request not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/requests/user/{userId}": {
+            "get": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Returns requests with the provided user id",
+                "description": "Users are only allowed to view their own Requests",
+                "operationId": "65263501f9bad6e5c618ba3dcea084c3",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "An users id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The users requests"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/request/{requestId}/accept": {
+            "patch": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Accepts a pending request",
+                "description": "Accepts a pending request and inserts its payload into the relevant table (records or artists). Only available to Admins.",
+                "operationId": "5aab856ddb707171e9f361c577126537",
+                "parameters": [
+                    {
+                        "name": "requestId",
+                        "in": "path",
+                        "description": "The ID of the request to accept",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "adminNote": {
+                                        "type": "string",
+                                        "example": "Looks good!",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request accepted and payload inserted into the database"
+                    },
+                    "401": {
+                        "description": "Unauthorized / Not an admin"
+                    },
+                    "404": {
+                        "description": "Request not found"
+                    },
+                    "409": {
+                        "description": "Request has already been accepted or rejected"
+                    },
+                    "422": {
+                        "description": "Unknown request type"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/request/{requestId}/reject": {
+            "patch": {
+                "tags": [
+                    "Requests"
+                ],
+                "summary": "Rejects a pending request",
+                "description": "Rejects a pending request. The request will no longer appear in the pending list. Only available to Admins.",
+                "operationId": "d452d952631103f6f3a667c928f7b111",
+                "parameters": [
+                    {
+                        "name": "requestId",
+                        "in": "path",
+                        "description": "The ID of the request to reject",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "adminNote": {
+                                        "type": "string",
+                                        "example": "Duplicate entry.",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Request rejected successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized / Not an admin"
+                    },
+                    "404": {
+                        "description": "Request not found"
+                    },
+                    "409": {
+                        "description": "Request has already been accepted or rejected"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Checks if the recieved name and password matches a database record with the same name and hashed password.",
+                "operationId": "ac5ad9361f467f545e4df7eba4af3165",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "userName",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "userName": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "verystrongpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Username and password matched a record! API Token generated and granted!"
+                    },
+                    "403": {
+                        "description": "User has been found but password didnt match!"
+                    },
+                    "404": {
+                        "description": "User not found!"
+                    },
+                    "422": {
+                        "description": "The request was recieved but its content contained errors!"
+                    }
+                }
+            }
+        },
+        "/api/user/register": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Creates a new Record in the database with the provided details.",
+                "operationId": "c9c044455fd0acebe15bb30b0ff36f88",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "userName",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "userName": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "verystrongpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully logged in!"
+                    },
+                    "422": {
+                        "description": "The request was recieved but its content contained errors!"
+                    }
+                }
+            }
+        },
+        "/api/user/logout": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Deletes the Users API Token from the database",
+                "description": "Doesnt delete the actual Users account from the database",
+                "operationId": "406125d57b30671be2660a495c421af3",
+                "responses": {
+                    "205": {
+                        "description": "Users API Token successfully deleted!"
+                    },
+                    "401": {
+                        "description": "The request and its contents was recieved but the token was either missing or it was invalid!"
+                    },
+                    "500": {
+                        "description": "The request and its contents was recieved but the server failed to delete the token!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/delete/{user}": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete an User",
+                "description": "Completley removes the Users Account from the database. Requires User API Token",
+                "operationId": "531bc8692038bf1c6d3ff34474783086",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "The ID of the user to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted successfully"
+                    },
+                    "401": {
+                        "description": "No Token Provided / Not Admin User"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/favourite": {
+            "post": {
+                "tags": [
+                    "Records",
+                    "Users",
+                    "Favourites"
+                ],
+                "summary": "Favourites a Record",
+                "description": "If called with a pair that already exits it deletes that link. (Unfavourites the Record.)",
+                "operationId": "0497bd27a76e4267f6a8a65fe713e0f5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "recordId"
+                                ],
+                                "properties": {
+                                    "recordId": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "[UserName] favourtied [RecordId] Record(ID)"
+                    },
+                    "200": {
+                        "description": "[UserName] un favourtied [RecordId] Record(ID)"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "The request was recieved but its content contained errors!"
+                    },
+                    "500": {
+                        "description": "The request was recieved but the serve failde to link the records!"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/favourite/{userId}": {
+            "get": {
+                "tags": [
+                    "Favourites",
+                    "Users"
+                ],
+                "summary": "Returns all favourited record IDs for a given user",
+                "operationId": "fd3f3da811c6c90e0eb9ac90c11cd783",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of favourited record IDs"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/api/favourite/{userId}/list": {
+            "get": {
+                "tags": [
+                    "Favourites",
+                    "Users"
+                ],
+                "summary": "Returns all favourited records for a given user",
+                "operationId": "e2578da3cfac06c04f02fc6d7baa14c0",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of favourited records"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Returns all Users",
+                "description": "Returns all Users, only avaible to Admins.",
+                "operationId": "98807bde80539e1a0c5869dcf7e53c37",
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "About",
+            "description": "About"
+        },
+        {
+            "name": "Records",
+            "description": "Records"
+        },
+        {
+            "name": "Artists",
+            "description": "Artists"
+        },
+        {
+            "name": "Types",
+            "description": "Types"
+        },
+        {
+            "name": "Requests",
+            "description": "Requests"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "Favourites",
+            "description": "Favourites"
+        }
+    ]
+}
