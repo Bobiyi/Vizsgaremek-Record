@@ -290,6 +290,7 @@ class RecordController extends Controller
 
         }
 
+        $data['is_group']==1 ? $data['is_group']=true : $data['is_group']=false;
         $updated = $artistToModify->update($data);
 
         if($updated) return response()->json(['message'=>'Artist updated!'],200);
