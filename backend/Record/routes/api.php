@@ -14,7 +14,7 @@ Route::get('/about',function () {
     return response()->json([
         'appName'=>env('APP_NAME'),
         'authors'=>['frontend'=>'Kiss Erik Adolf','backend'=>'Halmai Bence'],
-        'gitRepository'=>'https://github.com/Bobiyi/Record_Vizsga',
+        'gitRepository'=>'https://github.com/Bobiyi/Vizsgaremek-Record',
         'version'=>'1.0.0',
         'laravelVersion' => app()->version(),
         'phpVersion' => PHP_VERSION,
